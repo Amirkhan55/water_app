@@ -3,6 +3,8 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
 const request = require("request");
+const Customer = require("../models/customer");
+const Salesman = require("../models/salesman");
 exports.signin = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -44,15 +46,12 @@ exports.signin = async (req, res) => {
   }
 };
 
-exports.getPendingUsers = async function (req, res) {
+exports.getallCustomers = async function (req, res) {
   try {
-    const users = await User.findAll({
-      where: { status: "pending" },
-
-      attributes: { exclude: ["password"] },
-      include: {
-        model: Cnic,
-      },
+    const users = await Customer.findAll({
+      // include: {
+      //   model: Cnic,
+      // },
     });
     return res.status(200).json(users);
   } catch (error) {
@@ -60,20 +59,43 @@ exports.getPendingUsers = async function (req, res) {
     return res.status(400).json(error.message);
   }
 };
-///////////////////////////verify cnic //////////////////////////////////////////
-exports.reviewUserStatus = async function (req, res) {
+exports.getallSalesman = async function (req, res) {
   try {
-    const update = {
-      status: "approved",
-    };
-    const usertoken = await User.findOne({
+    const users = await Salesman.findAll({
+      // include: {
+      //   model: Cnic,
+      // },
+    });
+    return res.status(200).json(users);
+  } catch (error) {
+    //console.log(error);
+    return res.status(400).json(error.message);
+  }
+};
+exports.addCustomers = async function (req, res) {
+  try {
+    const { name, mobile, address, CNIC, salesmanId } = req.body;
+    var App = await Customer.create({
+      name,
+      mobile,
+      address,
+      CNIC,
+      salesmanId,
+    })
+      .then(res.status(200).send("Customer Created"))
+      .catch((err) => {
+        res.send(err);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+///////////////////////////verify cnic //////////////////////////////////////////
+exports.delivered = async function (req, res) {
+  try {
+    const usertoken = await Customer.findOne({
       where: { id: req.params.id },
     });
-    const user = await User.update(update, { where: { id: req.params.id } });
-    const token = usertoken.device_token;
-    const message = `Your identity is approved`;
-    const title = `Message from Darzam`;
-    notify(token, message, title);
 
     var options = {
       method: "POST",
@@ -84,8 +106,8 @@ exports.reviewUserStatus = async function (req, res) {
 
         // api_secret: "office_2020",
         receivenum: `${usertoken.mobile}`,
-        sendernum: "Darzam",
-        textmessage: `Your derzam Id has been verified.
+        sendernum: "J3",
+        textmessage: `Your ${req.body.bottles} bottles have been delivered.
     `,
       },
       headers: {
@@ -96,40 +118,12 @@ exports.reviewUserStatus = async function (req, res) {
 
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
-      res.redirect("/admin/cnic_details/" + req.params.id);
     });
 
-    // return res.status(200).json({
-    //   status: "success",
-    //   message: "status updated successfully",
-    // });
-  } catch (error) {
-    //console.log(error);
-    return res.status(400).json(error.message);
-  }
-};
-
-///////////////////////////reject cnic //////////////////////////////////////////
-exports.rejectUserStatus = async function (req, res) {
-  try {
-    // const update = {
-    //   status: "rejected",
-    // };
-    // const usertoken = await User.findOne({
-    //   where: { id: req.params.id },
-    // });
-    // const user = await User.update(update, { where: { id: req.params.id } });
-    // const token = usertoken.device_token;
-    console.log(req.body);
-    console.log(req.params);
-    // const message = `Your CNIC is rejected please upload again. Reason: ${req.body.rejections}`;
-    // const title = `Message from Darzam`;
-    // notify(token, message, title);
-    res.redirect("/admin/cnic_details/" + req.params.id);
-    // return res.status(200).json({
-    //   status: "success",
-    //   message: "status updated successfully",
-    // });
+    return res.status(200).json({
+      status: "success",
+      message: "delivered successfully",
+    });
   } catch (error) {
     //console.log(error);
     return res.status(400).json(error.message);

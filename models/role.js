@@ -8,6 +8,10 @@ const Role = db.define(
       type: Sequelize.BOOLEAN,
       default: true,
     },
+    isSalesman: {
+      type: Sequelize.BOOLEAN,
+      default: true,
+    },
     isUser: {
       type: Sequelize.BOOLEAN,
       default: true,

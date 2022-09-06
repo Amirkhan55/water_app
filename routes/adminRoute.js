@@ -78,29 +78,22 @@ router.get("/cnic_table", autherization, authAdmin, async function (req, res) {
 });
 
 router.get(
-  "/pendingUsers",
+  "/allCustomers",
   autherization,
   authAdmin,
-  adminController.getPendingUsers
+  adminController.getallCustomers
 );
 router.get(
-  "/reviewUsers/:id",
+  "/allSalemans",
   autherization,
   authAdmin,
-  adminController.reviewUserStatus
+  adminController.getallSalesman
 );
 router.post(
-  "/rejectUsers/:id",
+  "/addCustomers",
   autherization,
   authAdmin,
-  adminController.rejectUserStatus
+  adminController.addCustomers
 );
 
-router.get(
-  "/userrides/:id",
-  // passport.authenticate("jwt", { session: false }),
-  autherization,
-  authAdmin,
-  adminController.getDriverRides
-);
 module.exports = router;

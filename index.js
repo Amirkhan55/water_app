@@ -9,6 +9,7 @@ var db = require("./config/database");
 const dotenv = require("dotenv");
 var bodyParser = require("body-parser");
 var users = require("./routes/userRoute");
+var saleman = require("./routes/salesmanRoute");
 
 var admin = require("./routes/adminRoute");
 
@@ -103,6 +104,7 @@ app.set("view engine", "ejs");
 
 app.use("/users", users);
 app.use("/admin", admin);
+app.use("/salesman", saleman);
 
 if (env === "production") {
   server.listen(process.env.PORT || 4000, () => {

@@ -82,13 +82,17 @@ router.post(
 /////////////////////////////////////////life time sms api //////////////////////////////////////////////
 
 router.post("/otplogin", async function (req, res) {
-  // var val = Math.floor(1000 + Math.random() * 9000);
-  // console.log(val);
+  var userWithmobile = await User.findOne({
+    where: { mobile: req.body.phonenumber },
+    include: {
+      model: Role,
+    },
+  });
   try {
     if (req.body.phonenumber === "+923355590926") {
       // if (req.body.phonenumber) {
       res.send("yousaf");
-    } else {
+    } else if (userWithmobile) {
       const phonenumber = req.body.phonenumber;
       const otp = Math.floor(1000 + Math.random() * 9000);
       const ttl = 2 * 60 * 1000;
@@ -124,6 +128,8 @@ router.post("/otplogin", async function (req, res) {
         res.send({ phonenumber, hash: fullHash });
         console.log(body);
       });
+    } else {
+      res.status(404).send("Not found");
     }
   } catch (error) {
     res.send(error);
@@ -150,16 +156,7 @@ router.post("/verify", async function (req, res) {
       process.env.KEY
     );
     await res.header("token", token);
-    User.update(
-      {
-        device_token: req.body.token,
-      },
 
-      { where: { id: userWithmobile.id } }
-    );
-    // res.cookie("jwt", token);
-    res.cookie("token", token);
-    await res.header("token", token);
     return res.status(200).json({
       accessToken: token,
     });
@@ -200,49 +197,19 @@ router.post("/verify", async function (req, res) {
       //////assigning token for device
 
       if (!userWithmobile) {
-        const user = await User.create({
-          mobile: phonenumber,
-          roleId: 3,
-
-          device_token: req.body.token,
-        }).then((u) => {
-          const token = jwt.sign(
-            {
-              id: u.id,
-              email: u.email,
-              name: u.name,
-            },
-            process.env.KEY
-          );
-          // res.cookie("jwt", token);
-          res.cookie("token", token);
-          res.header("token", token);
-
-          res.status(200).json({
-            status: "success",
-            message: "Welcome " + u.name,
-            accessToken: token,
-          });
+        res.status(404).send({
+          status: "Not found",
         });
       } else {
         const token = await jwt.sign(
           {
             id: userWithmobile.id,
-            email: userWithmobile.email,
             name: userWithmobile.name,
           },
           process.env.KEY
         );
         await res.header("token", token);
-        User.update(
-          {
-            device_token: req.body.token,
-          },
 
-          { where: { id: userWithmobile.id } }
-        );
-        // res.cookie("jwt", token);
-        res.cookie("token", token);
         res.header("token", token);
         res.status(200).send({
           status: "success",

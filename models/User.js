@@ -3,6 +3,9 @@ const db = require("../config/database");
 const { DataTypes } = require("sequelize");
 
 const Role = require("../models/role");
+const Salesman = require("./salesman");
+const Customer = require("./customer");
+const Record = require("./records");
 
 const User = db.define(
   "user",
@@ -16,24 +19,11 @@ const User = db.define(
       allowNull: true,
       unique: true,
     },
-    password: {
-      type: DataTypes.STRING(64),
-    },
     mobile: {
       type: Sequelize.BIGINT,
     },
-    gender: {
-      type: DataTypes.STRING,
-    },
-
-    profilePic: {
-      type: Sequelize.STRING,
-    },
-    device_token: {
-      type: Sequelize.STRING,
-    },
-    imagepath: {
-      type: Sequelize.STRING,
+    password: {
+      type: DataTypes.STRING(64),
     },
   },
   { timestamps: true }
@@ -41,8 +31,18 @@ const User = db.define(
 ///////////////////////one to one user and role////////////////
 Role.hasMany(User);
 User.belongsTo(Role);
+///////////////////////one to one user and role////////////////
+Role.hasMany(Salesman);
+Salesman.belongsTo(Role);
+///////////////////////one to many customer and saleman////////////////
+Salesman.hasMany(Customer);
+Customer.belongsTo(Salesman);
 
-db.sync({ force: true }).then(() => {
+///////////////////////one to many customer and records////////////////
+Customer.hasMany(Record);
+Record.belongsTo(Customer);
+
+db.sync({ alter: true }).then(() => {
   console.log("All models created");
 });
 
