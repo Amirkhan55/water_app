@@ -130,7 +130,7 @@ router.post("/otplogin", async function (req, res) {
         console.log(body);
       });
     } else {
-      res.status(404).send("Not found");
+      res.status(404).send("No Registered User");
     }
   } catch (error) {
     res.send(error);

@@ -66,7 +66,8 @@ exports.getallRecords = async function (req, res) {
     const records = await Record.findAll({
       where: { customerId: req.params.id },
       include: {
-        model: Customer,
+        all: true,
+        nested: true,
       },
     });
     return res.status(200).json(records);
