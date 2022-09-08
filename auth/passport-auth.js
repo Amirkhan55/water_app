@@ -21,7 +21,7 @@ var headerExtractor = function (req) {
 passport.use(
   new StrategyJwt(
     {
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: headerExtractor,
       secretOrKey: process.env.KEY,
     },
     function (jwtPayload, done) {

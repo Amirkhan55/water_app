@@ -82,6 +82,7 @@ router.post(
 /////////////////////////////////////////life time sms api //////////////////////////////////////////////
 
 router.post("/otplogin", async function (req, res) {
+  console.log(req.body);
   var userWithmobile = await User.findOne({
     where: { mobile: req.body.phonenumber },
     include: {
@@ -112,7 +113,7 @@ router.post("/otplogin", async function (req, res) {
 
           // api_secret: "office_2020",
           receivenum: `${phonenumber}`,
-          sendernum: "Darzam",
+          sendernum: "J3",
           receivernetwork: "default",
           textmessage: `Your verification code is ${otp}. Never share this code with anyone. 
       `,

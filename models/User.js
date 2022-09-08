@@ -37,6 +37,9 @@ Salesman.belongsTo(Role);
 ///////////////////////one to many customer and saleman////////////////
 Salesman.hasMany(Customer);
 Customer.belongsTo(Salesman);
+///////////////////////one to many saleman  and User////////////////
+Salesman.hasOne(User);
+User.belongsTo(Salesman);
 
 ///////////////////////one to many customer and records////////////////
 Customer.hasMany(Record);

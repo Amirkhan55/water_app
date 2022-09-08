@@ -28,72 +28,51 @@ router.get("/", async function (req, res) {
 });
 
 router.post("/login", adminController.signin);
-router.get("/logout", (req, res) => {
-  res.clearCookie("jwt");
-  res.redirect("/admin");
-});
-router.get("/dashboard", autherization, async (req, res) => {
-  try {
-    const data = await User.findAll({
-      attributes: { exclude: ["password"] },
-    });
-    res.status(200).render("index", {
-      user: req.user,
-      data: data,
-    });
-  } catch (error) {
-    res.status(400).send({ error: error.message });
-  }
-});
-///////////////////////////////all users list//////////////////////////////
-router.get("/users_list", autherization, authAdmin, async function (req, res) {
-  const user = await User.findAll({
-    attributes: { exclude: ["password"] },
-  });
-
-  res.render("user_table", { data: user, user: req.user });
-});
-
-/////////////////////////////user cnic details//////////////////////////////
-router.get(
-  "/cnic_details/:id",
-  autherization,
-  authAdmin,
-  async function (req, res) {
-    const cnic = await Cnic.findOne({
-      where: { userId: req.params.id },
-      include: [{ model: User }],
-    });
-    res.render("cnic_table", { data: cnic, user: req.user });
-  }
-);
-
-///////////////////////////user cnic table////////////////////////////////
-router.get("/cnic_table", autherization, authAdmin, async function (req, res) {
-  const cnic = await User.findAll({
-    include: [{ model: Cnic }],
-    attributes: { exclude: ["password"] },
-  });
-  res.render("user_nic_table", { data: cnic, user: req.user });
-});
 
 router.get(
   "/allCustomers",
-  autherization,
-  authAdmin,
+  passport.authenticate("jwt", { session: false }),
   adminController.getallCustomers
 );
 router.get(
-  "/allSalemans",
-  autherization,
-  authAdmin,
+  "/allSalesmans",
+  passport.authenticate("jwt", { session: false }),
   adminController.getallSalesman
+);
+router.get(
+  "/allRecords/:id",
+  passport.authenticate("jwt", { session: false }),
+  adminController.getallRecords
 );
 router.post(
   "/addCustomers",
-  autherization,
-  authAdmin,
+  passport.authenticate("jwt", { session: false }),
   adminController.addCustomers
+);
+router.post(
+  "/addSalesmans",
+  passport.authenticate("jwt", { session: false }),
+  adminController.addSaleman
+);
+router.post(
+  "/addRecord",
+  passport.authenticate("jwt", { session: false }),
+  adminController.delivered
+);
+router.get(
+  "/salesmanCustomers/:id",
+  passport.authenticate("jwt", { session: false }),
+  adminController.salesmancustomers
+);
+router.get(
+  "/mycustomers",
+  passport.authenticate("jwt", { session: false }),
+  adminController.mycustomers
+);
+router.get(
+  "/myprofile",
+  passport.authenticate("jwt", { session: false }),
+  adminController.myprofile
 );
 
 module.exports = router;

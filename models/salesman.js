@@ -23,6 +23,9 @@ const Salesman = db.define(
     area: {
       type: Sequelize.STRING,
     },
+    city: {
+      type: Sequelize.STRING,
+    },
     profilePic: {
       type: Sequelize.STRING,
     },

@@ -19,6 +19,13 @@ const Customer = db.define(
     CNIC: {
       type: Sequelize.STRING,
     },
+    city: {
+      type: Sequelize.STRING,
+    },
+    // status: {
+    //   type: Sequelize.STRING,
+    //   default: "pending",
+    // },
   },
   { timestamps: true }
 );

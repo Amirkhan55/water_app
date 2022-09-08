@@ -9,7 +9,7 @@ const Records = db.define(
       default: true,
     },
     payment: {
-      type: Sequelize.BIGINT,
+      type: Sequelize.INTEGER,
       default: true,
     },
     remaining: {
@@ -17,7 +17,7 @@ const Records = db.define(
       default: true,
     },
     total: {
-      type: Sequelize.BIGINT,
+      type: Sequelize.INTEGER,
       default: true,
     },
   },
