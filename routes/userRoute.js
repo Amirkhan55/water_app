@@ -151,7 +151,7 @@ router.post("/verify", async function (req, res) {
     const token = await jwt.sign(
       {
         id: userWithmobile.id,
-        email: userWithmobile.email,
+
         name: userWithmobile.name,
       },
       process.env.KEY

@@ -20,6 +20,14 @@ const Records = db.define(
       type: Sequelize.INTEGER,
       default: true,
     },
+    salesman: {
+      type: Sequelize.STRING,
+      default: true,
+    },
+    salesmanNumber: {
+      type: Sequelize.INTEGER,
+      default: true,
+    },
   },
   { timestamps: true }
 );

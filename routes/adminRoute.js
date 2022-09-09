@@ -75,4 +75,34 @@ router.get(
   adminController.myprofile
 );
 
+router.post(
+  "/deleteCustomer",
+  passport.authenticate("jwt", { session: false }),
+  adminController.delCustomer
+);
+router.post(
+  "/editCustomers",
+  passport.authenticate("jwt", { session: false }),
+  adminController.editCustomers
+);
+router.post(
+  "/delSalesman",
+  passport.authenticate("jwt", { session: false }),
+  adminController.delSalesman
+);
+router.post(
+  "/editSalesman",
+  passport.authenticate("jwt", { session: false }),
+  adminController.editSaleman
+);
+router.get(
+  "/searchCustomer/:search",
+  passport.authenticate("jwt", { session: false }),
+  adminController.searchCustomer
+);
+router.get(
+  "/searchSalesman/:search",
+  passport.authenticate("jwt", { session: false }),
+  adminController.searchSalesman
+);
 module.exports = router;

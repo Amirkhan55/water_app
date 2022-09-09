@@ -6,6 +6,7 @@ const request = require("request");
 const Customer = require("../models/customer");
 const Salesman = require("../models/salesman");
 const Record = require("../models/records");
+const { Op } = require("sequelize");
 exports.signin = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -50,6 +51,7 @@ exports.signin = async (req, res) => {
 exports.getallCustomers = async function (req, res) {
   try {
     const users = await Customer.findAll({
+      where: { status: "active" },
       include: {
         model: Record,
         model: Salesman,
@@ -79,6 +81,8 @@ exports.getallRecords = async function (req, res) {
 exports.getallSalesman = async function (req, res) {
   try {
     const users = await Salesman.findAll({
+      //where: { id: !req.user.salesmanId },
+      where: { [Op.not]: [{ id: req.user.salesmanId }] },
       // include: {
       //   model: Cnic,
       // },
@@ -99,6 +103,7 @@ exports.addCustomers = async function (req, res) {
       CNIC,
       city,
       salesmanId,
+      status: "active",
     }).then(res.status(200).send("Customer Created"));
   } catch (error) {
     console.log(error);
@@ -128,7 +133,15 @@ exports.addSaleman = async function (req, res) {
 
 exports.delivered = async function (req, res) {
   try {
-    const { bottles, payment, remaining, total, customerId } = req.body;
+    const {
+      bottles,
+      payment,
+      remaining,
+      total,
+      customerId,
+      saleman,
+      salemanNumber,
+    } = req.body;
     console.log(req.body);
     const usertoken = await Customer.findOne({
       where: { id: customerId },
@@ -140,6 +153,8 @@ exports.delivered = async function (req, res) {
       remaining,
       total,
       customerId,
+      saleman,
+      salemanNumber,
     });
 
     var options = {
@@ -195,7 +210,10 @@ exports.salesmancustomers = async function (req, res) {
 exports.mycustomers = async function (req, res) {
   try {
     const users = await Customer.findAll({
-      where: { salesmanId: req.user.salesmanId },
+      where: {
+        salesmanId: req.user.salesmanId,
+        status: "active",
+      },
       include: {
         model: Salesman,
       },
@@ -216,4 +234,120 @@ exports.myprofile = async function (req, res) {
   } catch (error) {
     console.log(error);
   }
+};
+
+exports.delSalesman = async function (req, res) {
+  try {
+    const cutomers = await Customer.update(
+      {
+        salesmanId: 1,
+      },
+      { where: { salesmanId: req.body.id } }
+    );
+    const user = await User.destroy({
+      where: { salesmanId: req.body.id },
+    });
+    const saleman = await Salesman.destroy({
+      where: { id: req.body.id },
+    });
+
+    return res.status(200).json("Deleted");
+  } catch (error) {
+    //console.log(error);
+    return res.status(400).json(error.message);
+  }
+};
+exports.delCustomer = async function (req, res) {
+  try {
+    const users = await Customer.update(
+      {
+        status: "deactivated",
+      },
+      { where: { id: req.body.id } }
+    );
+    return res.status(200).json("deleted");
+  } catch (error) {
+    //console.log(error);
+    return res.status(400).json(error.message);
+  }
+};
+
+exports.editCustomers = async function (req, res) {
+  try {
+    const { name, mobile, address, CNIC, salesmanId, city } = req.body;
+    var App = await Customer.update(
+      {
+        name,
+        mobile,
+        address,
+        CNIC,
+        city,
+        salesmanId,
+      },
+      { where: { id: req.body.id } }
+    ).then(res.status(200).send("Customer Edited"));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.editSaleman = async function (req, res) {
+  try {
+    const { name, mobile, address, CNIC, salesmanId, city, area } = req.body;
+    var App = await Salesman.update(
+      {
+        name,
+        mobile,
+        address,
+        CNIC,
+        city,
+        area,
+        roleId: 2,
+      },
+      { where: { id: req.body.id } }
+    );
+    var App = await User.update(
+      {
+        name,
+        mobile,
+        roleId: 2,
+      },
+      { where: { salesmanId: req.body.id } }
+    ).then(res.status(200).send("Saleman Edited"));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.searchCustomer = async function (req, res) {
+  var search = req.params.search;
+  const user = await Customer.findAll({
+    where: {
+      name: {
+        [Op.iLike]: `%${search}%`,
+      },
+    },
+  })
+    .then((u) => {
+      res.json(u);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+exports.searchSalesman = async function (req, res) {
+  var search = req.params.search;
+  const user = await Salesman.findAll({
+    where: {
+      name: {
+        [Op.iLike]: `%${search}%`,
+      },
+    },
+  })
+    .then((u) => {
+      res.json(u);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };

@@ -22,10 +22,10 @@ const Customer = db.define(
     city: {
       type: Sequelize.STRING,
     },
-    // status: {
-    //   type: Sequelize.STRING,
-    //   default: "pending",
-    // },
+    status: {
+      type: Sequelize.STRING,
+      default: "active",
+    },
   },
   { timestamps: true }
 );
