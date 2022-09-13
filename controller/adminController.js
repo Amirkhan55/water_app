@@ -342,14 +342,12 @@ exports.searchSalesman = async function (req, res) {
     where: {
       [Op.and]: [
         {
-          namae: {
+          name: {
             [Op.iLike]: `%${search}%`,
           },
         },
         {
-          roleId: {
-            [Op.eq]: "2",
-          },
+          roleId: 2,
         },
       ],
     },
