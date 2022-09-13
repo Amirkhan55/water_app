@@ -44,12 +44,7 @@ const whitelist = [
   "http://localhost:3000",
   "http://localhost:4000",
   "http://localhost:3001",
-  "http://derzam.com",
-  "https://derzam.com",
-  "http://www.derzam.com",
-  "https://www.derzam.com",
-  "https://app.derzam.com",
-  "http://app.derzam.com",
+
   "https://api.veevotech.com/sendsms",
   "http://api.veevotech.com/sendsms",
   "https://api.veevotech.com",

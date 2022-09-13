@@ -167,7 +167,7 @@ router.post("/verify", async function (req, res) {
     const code = req.body.code;
     if (!hash) {
       return res.send({
-        msg: "invalid code",
+        msg: "this is invalid code",
       });
     }
     let [hashValue, expires] = hash.split(".");
@@ -175,7 +175,7 @@ router.post("/verify", async function (req, res) {
     let now = Date.now();
     if (now > parseInt(expires)) {
       return res.send({
-        msg: "invalid code",
+        msg: " invalid code",
       });
     }
     let data = `${phonenumber}.${code}.${expires}`;
@@ -219,7 +219,7 @@ router.post("/verify", async function (req, res) {
         });
       }
     } else {
-      res.send("invalid code");
+      res.send(" opps invalid code");
     }
   }
 });
