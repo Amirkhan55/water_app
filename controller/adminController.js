@@ -340,9 +340,18 @@ exports.searchSalesman = async function (req, res) {
   var search = req.params.search;
   const user = await Salesman.findAll({
     where: {
-      name: {
-        [Op.iLike]: `%${search}%`,
-      },
+      [Op.and]: [
+        {
+          namae: {
+            [Op.iLike]: `%${search}%`,
+          },
+        },
+        {
+          roleId: {
+            [Op.eq]: "2",
+          },
+        },
+      ],
     },
   })
     .then((u) => {
