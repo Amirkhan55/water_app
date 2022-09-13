@@ -119,6 +119,7 @@ exports.addSaleman = async function (req, res) {
       area,
       city,
       CNIC,
+      roleId: 2,
     });
     var user = await User.create({
       name,
