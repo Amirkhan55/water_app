@@ -7,6 +7,7 @@ const Customer = require("../models/customer");
 const Salesman = require("../models/salesman");
 const Record = require("../models/records");
 const { Op } = require("sequelize");
+const Daily_report = require("../models/daily_report");
 exports.signin = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -215,14 +216,20 @@ exports.mycustomers = async function (req, res) {
         salesmanId: req.user.salesmanId,
         status: "active",
       },
-      include: {
-        model: Salesman,
-      },
+      include: [
+        {
+          model: Salesman,
+          nested: true,
+        },
+        // {
+        //   model: Record,
+        // },
+      ],
     });
     return res.status(200).json(users);
   } catch (error) {
-    //console.log(error);
-    return res.status(400).json(error.message);
+    console.log(error);
+    return res.status(400).json(error);
   }
 };
 
@@ -240,6 +247,12 @@ exports.myprofile = async function (req, res) {
 exports.delSalesman = async function (req, res) {
   try {
     const cutomers = await Customer.update(
+      {
+        salesmanId: 1,
+      },
+      { where: { salesmanId: req.body.id } }
+    );
+    const daily_report = await Daily_report.update(
       {
         salesmanId: 1,
       },
@@ -358,4 +371,98 @@ exports.searchSalesman = async function (req, res) {
     .catch((error) => {
       console.log(error);
     });
+};
+
+exports.addDailyreport = async function (req, res) {
+  try {
+    const usertoken = await Customer.findOne({
+      where: { id: req.body.customerId },
+    });
+    await Record.update(
+      { previous: 0 },
+      { where: { customerId: req.body.customerId } }
+    );
+    var daily_Report = await Daily_report.create({
+      Client: req.body.client,
+      address: req.body.address,
+      "19cash": req.body.cash19,
+      "19quantity": req.body.quantity19,
+      "19credit": req.body.credit19,
+      "12quantity": req.body.quantity12,
+      "12credit": req.body.credit12,
+      "12cash": req.body.cash12,
+      "6quantity": req.body.quantity6,
+      "6credit": req.body.credit6,
+      "6cash": req.body.cash6,
+      "1quantity": req.body.quantity5,
+      "1cash": req.body.cash5,
+      "1credit": req.body.credit5,
+      "0quantity": req.body.quantity0,
+      "0cash": req.body.cash0,
+      "0credit": req.body.credit0,
+      totalcash: req.body.totalcash,
+      totalcredit: req.body.totalcredit,
+      previous: req.body.previous,
+      salesmanId: req.user.id,
+    });
+
+    console.log(req.body);
+
+    //await Record.update({ remaining: 0 }, { where: { customerId } });
+    var user = await Record.create({
+      "19cash": req.body.cash19,
+      "19quantity": req.body.quantity19,
+      "19credit": req.body.credit19,
+      "12quantity": req.body.quantity12,
+      "12credit": req.body.credit12,
+      "12cash": req.body.cash12,
+      "6quantity": req.body.quantity6,
+      "6credit": req.body.credit6,
+      "6cash": req.body.cash6,
+      "1quantity": req.body.quantity5,
+      "1cash": req.body.cash5,
+      "1credit": req.body.credit5,
+      "0quantity": req.body.quantity0,
+      "0cash": req.body.cash0,
+      "0credit": req.body.credit0,
+      totalcash: req.body.totalcash,
+      totalcredit: req.body.totalcredit,
+      previous: req.body.previous,
+      customerId: req.body.customerId,
+      salesman: req.user.name,
+      salesmanNumber: req.user.mobile,
+    });
+    var options = {
+      method: "POST",
+      url: "https://api.veevotech.com/sendsms",
+      qs: {
+        // api_token: "1c2e1733b0e0c379422f8d61f09f808f6335116532",
+        hash: process.env.OTP,
+
+        // api_secret: "office_2020",
+        receivenum: `+${usertoken.mobile}`,
+        sendernum: "J3",
+        textmessage: `Your bottles have been delivered.
+Payment made ${req.body.totalcash} Rs.
+Remaining amount ${req.body.totalcredit} Rs.
+        `,
+      },
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+      },
+    };
+
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+    });
+
+    return res.status(200).json({
+      status: "success",
+      message: "delivered successfully",
+    });
+  } catch (error) {
+    res.status(400).send(error.message);
+    console.log(error);
+  }
 };

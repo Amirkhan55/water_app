@@ -1,9 +1,17 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
 const { DataTypes } = require("sequelize");
-const Records = db.define(
-  "record",
+const Daily_report = db.define(
+  "daily_Report",
   {
+    Client: {
+      type: Sequelize.STRING,
+      default: true,
+    },
+    address: {
+      type: Sequelize.STRING,
+      default: true,
+    },
     "19cash": {
       type: Sequelize.INTEGER,
       default: true,
@@ -76,15 +84,7 @@ const Records = db.define(
       type: Sequelize.INTEGER,
       default: true,
     },
-    salesman: {
-      type: Sequelize.STRING,
-      default: true,
-    },
-    salesmanNumber: {
-      type: Sequelize.BIGINT,
-      default: true,
-    },
   },
   { timestamps: true }
 );
-module.exports = Records;
+module.exports = Daily_report;

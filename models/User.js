@@ -6,7 +6,8 @@ const Role = require("../models/role");
 const Salesman = require("./salesman");
 const Customer = require("./customer");
 const Record = require("./records");
-
+const expense = require("./expense_report");
+const daily_Report = require("./daily_report");
 const User = db.define(
   "user",
   {
@@ -45,6 +46,9 @@ User.belongsTo(Salesman);
 Customer.hasMany(Record);
 Record.belongsTo(Customer);
 
+///////////////////////one to many salemn and daily report////////////////
+Salesman.hasMany(daily_Report);
+daily_Report.belongsTo(Salesman);
 db.sync({ alter: true }).then(() => {
   console.log("All models created");
 });

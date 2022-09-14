@@ -105,4 +105,10 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   adminController.searchSalesman
 );
+
+router.post(
+  "/add_daily_report",
+  passport.authenticate("jwt", { session: false }),
+  adminController.addDailyreport
+);
 module.exports = router;
