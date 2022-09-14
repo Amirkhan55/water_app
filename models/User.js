@@ -49,6 +49,11 @@ Record.belongsTo(Customer);
 ///////////////////////one to many salemn and daily report////////////////
 Salesman.hasMany(daily_Report);
 daily_Report.belongsTo(Salesman);
+
+///////////////////////one to many salemn and expense report////////////////
+Salesman.hasMany(expense);
+expense.belongsTo(Salesman);
+
 db.sync({ alter: true }).then(() => {
   console.log("All models created");
 });

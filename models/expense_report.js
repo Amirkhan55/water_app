@@ -20,35 +20,35 @@ const Expense = db.define(
       type: Sequelize.INTEGER,
       default: true,
     },
-    "bottle_issued0.5": {
+    bottle_issued0: {
       type: Sequelize.STRING,
       default: true,
     },
-    "returned0.5": {
+    returned0: {
       type: Sequelize.STRING,
       default: true,
     },
-    "sale0.5": {
+    sale0: {
       type: Sequelize.STRING,
       default: true,
     },
-    "difference0.5": {
+    difference0: {
       type: Sequelize.STRING,
       default: true,
     },
-    "bottle_issued1.5": {
+    bottle_issued1: {
       type: Sequelize.STRING,
       default: true,
     },
-    "returned1.5": {
+    returned1: {
       type: Sequelize.STRING,
       default: true,
     },
-    "sale1.5": {
+    sale1: {
       type: Sequelize.STRING,
       default: true,
     },
-    "difference1.5": {
+    difference1: {
       type: Sequelize.STRING,
       default: true,
     },

@@ -111,4 +111,19 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   adminController.addDailyreport
 );
+router.post(
+  "/add_expense_report",
+  passport.authenticate("jwt", { session: false }),
+  adminController.addexpensereport
+);
+router.get(
+  "/my_expense_report",
+  passport.authenticate("jwt", { session: false }),
+  adminController.myexpense
+);
+router.get(
+  "/all_expense_report",
+  passport.authenticate("jwt", { session: false }),
+  adminController.allexpense
+);
 module.exports = router;
