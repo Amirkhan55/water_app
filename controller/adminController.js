@@ -140,8 +140,8 @@ exports.delivered = async function (req, res) {
       remaining,
       total,
       customerId,
-      saleman,
-      salemanNumber,
+      salesman,
+      salesmanNumber,
     } = req.body;
     console.log(req.body);
     const usertoken = await Customer.findOne({
@@ -154,8 +154,8 @@ exports.delivered = async function (req, res) {
       remaining,
       total,
       customerId,
-      saleman,
-      salemanNumber,
+      salesman,
+      salesmanNumber,
     });
 
     var options = {
