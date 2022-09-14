@@ -13,75 +13,75 @@ const Daily_report = db.define(
       default: true,
     },
     "19cash": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "19credit": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "19quantity": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "12credit": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "12cash": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "12quantity": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "6credit": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "6cash": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "6quantity": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "1cash": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "1credit": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "1quantity": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "0cash": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "0credit": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     "0quantity": {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     totalcash: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     totalcredit: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
     previous: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
       default: true,
     },
   },
