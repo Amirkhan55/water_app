@@ -111,6 +111,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   adminController.addDailyreport
 );
+router.get(
+  "/all_daily_report",
+  passport.authenticate("jwt", { session: false }),
+  adminController.alldailyreport
+);
 router.post(
   "/add_expense_report",
   passport.authenticate("jwt", { session: false }),

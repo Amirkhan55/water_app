@@ -417,6 +417,7 @@ exports.addDailyreport = async function (req, res) {
       previous: req.body.previous,
       salesmanId: req.user.salesmanId,
       totalpaid: req.body.totalpaid,
+      salesmanName: req.user.name,
     });
 
     console.log(req.body);
@@ -510,6 +511,7 @@ exports.addexpensereport = async function (req, res) {
       difference1: req.body.difference1,
       total_Sale: req.body.total_Sale,
       salesmanId: req.user.salesmanId,
+      salesmanName: req.user.name,
     });
 
     console.log(req.body);
@@ -527,6 +529,9 @@ exports.myexpense = async function (req, res) {
       where: {
         salesmanId: req.user.salesmanId,
       },
+      include: {
+        model: Salesman,
+      },
     });
     return res.status(200).json(users);
   } catch (error) {
@@ -537,7 +542,21 @@ exports.myexpense = async function (req, res) {
 
 exports.allexpense = async function (req, res) {
   try {
-    const users = await Expense.findAll({});
+    const users = await Expense.findAll({
+      include: {
+        model: Salesman,
+      },
+    });
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+};
+
+exports.alldailyreport = async function (req, res) {
+  try {
+    const users = await Daily_report.findAll({});
     return res.status(200).json(users);
   } catch (error) {
     console.log(error);

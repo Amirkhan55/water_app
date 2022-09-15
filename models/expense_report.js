@@ -79,6 +79,10 @@ const Expense = db.define(
     total_Sale: {
       type: Sequelize.BIGINT,
     },
+    salesmanName: {
+      type: Sequelize.STRING,
+      default: true,
+    },
   },
   { timestamps: true }
 );

@@ -88,6 +88,10 @@ const Daily_report = db.define(
       type: Sequelize.BIGINT,
       default: true,
     },
+    salesmanName: {
+      type: Sequelize.STRING,
+      default: true,
+    },
   },
   { timestamps: true }
 );
