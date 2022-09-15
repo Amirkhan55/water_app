@@ -74,7 +74,7 @@ exports.getallRecords = async function (req, res) {
         nested: true,
       },
     });
-    return res.status(200).json(records);
+    return res.status(200).send(records);
   } catch (error) {
     //console.log(error);
     return res.status(400).json(error.message);
@@ -389,80 +389,86 @@ exports.addDailyreport = async function (req, res) {
       { previous: 0 },
       { where: { customerId: req.body.customerId } }
     );
+    await Daily_report.update(
+      { previous: 0 },
+      { where: { salesmanId: req.user.salesmanId } }
+    );
+
     var daily_Report = await Daily_report.create({
       Client: req.body.client,
       address: req.body.address,
-      "19cash": req.body.cash19,
-      "19quantity": req.body.quantity19,
-      "19credit": req.body.credit19,
-      "12quantity": req.body.quantity12,
-      "12credit": req.body.credit12,
-      "12cash": req.body.cash12,
-      "6quantity": req.body.quantity6,
-      "6credit": req.body.credit6,
-      "6cash": req.body.cash6,
-      "1quantity": req.body.quantity5,
-      "1cash": req.body.cash5,
-      "1credit": req.body.credit5,
-      "0quantity": req.body.quantity0,
-      "0cash": req.body.cash0,
-      "0credit": req.body.credit0,
+      cash19: req.body.cash19,
+      quantity19: req.body.quantity19,
+      credit19: req.body.credit19,
+      quantity12: req.body.quantity12,
+      credit12: req.body.credit12,
+      cash12: req.body.cash12,
+      quantity6: req.body.quantity6,
+      credit6: req.body.credit6,
+      cash6: req.body.cash6,
+      quantity1: req.body.quantity5,
+      cash1: req.body.cash5,
+      credit1: req.body.credit5,
+      quantity0: req.body.quantity0,
+      cash0: req.body.cash0,
+      credit0: req.body.credit0,
       totalcash: req.body.totalcash,
       totalcredit: req.body.totalcredit,
       previous: req.body.previous,
-      salesmanId: req.user.id,
+      salesmanId: req.user.salesmanId,
+      totalpaid: req.body.totalpaid,
     });
 
     console.log(req.body);
 
-    //await Record.update({ remaining: 0 }, { where: { customerId } });
     var user = await Record.create({
-      "19cash": req.body.cash19,
-      "19quantity": req.body.quantity19,
-      "19credit": req.body.credit19,
-      "12quantity": req.body.quantity12,
-      "12credit": req.body.credit12,
-      "12cash": req.body.cash12,
-      "6quantity": req.body.quantity6,
-      "6credit": req.body.credit6,
-      "6cash": req.body.cash6,
-      "1quantity": req.body.quantity5,
-      "1cash": req.body.cash5,
-      "1credit": req.body.credit5,
-      "0quantity": req.body.quantity0,
-      "0cash": req.body.cash0,
-      "0credit": req.body.credit0,
+      cash19: req.body.cash19,
+      quantity19: req.body.quantity19,
+      credit19: req.body.credit19,
+      quantity12: req.body.quantity12,
+      credit12: req.body.credit12,
+      cash12: req.body.cash12,
+      quantity6: req.body.quantity6,
+      credit6: req.body.credit6,
+      cash6: req.body.cash6,
+      quantity1: req.body.quantity5,
+      cash1: req.body.cash5,
+      credit1: req.body.credit5,
+      quantity0: req.body.quantity0,
+      cash0: req.body.cash0,
+      credit0: req.body.credit0,
       totalcash: req.body.totalcash,
       totalcredit: req.body.totalcredit,
       previous: req.body.previous,
       customerId: req.body.customerId,
       salesman: req.user.name,
       salesmanNumber: req.user.mobile,
+      totalpaid: req.body.totalpaid,
     });
-    var options = {
-      method: "POST",
-      url: "https://api.veevotech.com/sendsms",
-      qs: {
-        // api_token: "1c2e1733b0e0c379422f8d61f09f808f6335116532",
-        hash: process.env.OTP,
+    //     var options = {
+    //       method: "POST",
+    //       url: "https://api.veevotech.com/sendsms",
+    //       qs: {
+    //         // api_token: "1c2e1733b0e0c379422f8d61f09f808f6335116532",
+    //         hash: process.env.OTP,
 
-        // api_secret: "office_2020",
-        receivenum: `+${usertoken.mobile}`,
-        sendernum: "J3",
-        textmessage: `Your bottles have been delivered.
-Payment made ${req.body.totalcash} Rs.
-Remaining amount ${req.body.totalcredit} Rs.
-        `,
-      },
-      headers: {
-        "content-type": "application/json",
-        "cache-control": "no-cache",
-      },
-    };
+    //         // api_secret: "office_2020",
+    //         receivenum: `+${usertoken.mobile}`,
+    //         sendernum: "J3",
+    //         textmessage: `Your bottles have been delivered.
+    // Payment made ${req.body.totalcash} Rs.
+    // Remaining amount ${req.body.totalcredit} Rs.
+    //         `,
+    //       },
+    //       headers: {
+    //         "content-type": "application/json",
+    //         "cache-control": "no-cache",
+    //       },
+    //     };
 
-    request(options, function (error, response, body) {
-      if (error) throw new Error(error);
-    });
+    //     request(options, function (error, response, body) {
+    //       if (error) throw new Error(error);
+    //     });
 
     return res.status(200).json({
       status: "success",
@@ -475,13 +481,6 @@ Remaining amount ${req.body.totalcredit} Rs.
 };
 exports.addexpensereport = async function (req, res) {
   try {
-    const usertoken = await Customer.findOne({
-      where: { id: req.body.customerId },
-    });
-    await Record.update(
-      { previous: 0 },
-      { where: { customerId: req.body.customerId } }
-    );
     var expense_Report = await Expense.create({
       Fuel: req.body.Fuel,
       Toll_tax: req.body.Toll_tax,
@@ -509,7 +508,8 @@ exports.addexpensereport = async function (req, res) {
       returned1: req.body.returned1,
       sale1: req.body.sale1,
       difference1: req.body.difference1,
-      salesmanId: req.user.id,
+      total_Sale: req.body.total_Sale,
+      salesmanId: req.user.salesmanId,
     });
 
     console.log(req.body);

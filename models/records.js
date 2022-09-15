@@ -4,63 +4,63 @@ const { DataTypes } = require("sequelize");
 const Records = db.define(
   "record",
   {
-    "19cash": {
+    cash19: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "19credit": {
+    credit19: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "19quantity": {
+    quantity19: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "12credit": {
+    credit12: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "12cash": {
+    cash12: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "12quantity": {
+    quantity12: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "6credit": {
+    credit6: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "6cash": {
+    cash6: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "6quantity": {
+    quantity6: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "1cash": {
+    cash1: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "1credit": {
+    credit1: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "1quantity": {
+    quantity1: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "0cash": {
+    cash0: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "0credit": {
+    credit0: {
       type: Sequelize.INTEGER,
       default: true,
     },
-    "0quantity": {
+    quantity0: {
       type: Sequelize.INTEGER,
       default: true,
     },
@@ -74,6 +74,10 @@ const Records = db.define(
     },
     previous: {
       type: Sequelize.INTEGER,
+      default: true,
+    },
+    totalpaid: {
+      type: Sequelize.BIGINT,
       default: true,
     },
     salesman: {

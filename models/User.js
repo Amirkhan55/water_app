@@ -8,6 +8,7 @@ const Customer = require("./customer");
 const Record = require("./records");
 const expense = require("./expense_report");
 const daily_Report = require("./daily_report");
+const Daily_report = require("./daily_report");
 const User = db.define(
   "user",
   {
@@ -18,7 +19,6 @@ const User = db.define(
     email: {
       type: DataTypes.STRING,
       allowNull: true,
-      unique: true,
     },
     mobile: {
       type: Sequelize.BIGINT,
@@ -47,8 +47,8 @@ Customer.hasMany(Record);
 Record.belongsTo(Customer);
 
 ///////////////////////one to many salemn and daily report////////////////
-Salesman.hasMany(daily_Report);
-daily_Report.belongsTo(Salesman);
+Salesman.hasMany(Daily_report);
+Daily_report.belongsTo(Salesman);
 
 ///////////////////////one to many salemn and expense report////////////////
 Salesman.hasMany(expense);

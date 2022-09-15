@@ -12,67 +12,71 @@ const Daily_report = db.define(
       type: Sequelize.STRING,
       default: true,
     },
-    "19cash": {
-      type: Sequelize.BIGINT,
+    cash19: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "19credit": {
-      type: Sequelize.BIGINT,
+    credit19: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "19quantity": {
-      type: Sequelize.BIGINT,
+    quantity19: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "12credit": {
-      type: Sequelize.BIGINT,
+    credit12: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "12cash": {
-      type: Sequelize.BIGINT,
+    cash12: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "12quantity": {
-      type: Sequelize.BIGINT,
+    quantity12: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "6credit": {
-      type: Sequelize.BIGINT,
+    credit6: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "6cash": {
-      type: Sequelize.BIGINT,
+    cash6: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "6quantity": {
-      type: Sequelize.BIGINT,
+    quantity6: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "1cash": {
-      type: Sequelize.BIGINT,
+    cash1: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "1credit": {
-      type: Sequelize.BIGINT,
+    credit1: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "1quantity": {
-      type: Sequelize.BIGINT,
+    quantity1: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "0cash": {
-      type: Sequelize.BIGINT,
+    cash0: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "0credit": {
-      type: Sequelize.BIGINT,
+    credit0: {
+      type: Sequelize.INTEGER,
       default: true,
     },
-    "0quantity": {
-      type: Sequelize.BIGINT,
+    quantity0: {
+      type: Sequelize.INTEGER,
       default: true,
     },
     totalcash: {
+      type: Sequelize.BIGINT,
+      default: true,
+    },
+    totalpaid: {
       type: Sequelize.BIGINT,
       default: true,
     },
