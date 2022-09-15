@@ -446,30 +446,30 @@ exports.addDailyreport = async function (req, res) {
       salesmanNumber: req.user.mobile,
       totalpaid: req.body.totalpaid,
     });
-    //     var options = {
-    //       method: "POST",
-    //       url: "https://api.veevotech.com/sendsms",
-    //       qs: {
-    //         // api_token: "1c2e1733b0e0c379422f8d61f09f808f6335116532",
-    //         hash: process.env.OTP,
+    var options = {
+      method: "POST",
+      url: "https://api.veevotech.com/sendsms",
+      qs: {
+        // api_token: "1c2e1733b0e0c379422f8d61f09f808f6335116532",
+        hash: process.env.OTP,
 
-    //         // api_secret: "office_2020",
-    //         receivenum: `+${usertoken.mobile}`,
-    //         sendernum: "J3",
-    //         textmessage: `Your bottles have been delivered.
-    // Payment made ${req.body.totalcash} Rs.
-    // Remaining amount ${req.body.totalcredit} Rs.
-    //         `,
-    //       },
-    //       headers: {
-    //         "content-type": "application/json",
-    //         "cache-control": "no-cache",
-    //       },
-    //     };
+        // api_secret: "office_2020",
+        receivenum: `+${usertoken.mobile}`,
+        sendernum: "J3",
+        textmessage: `Your bottles have been delivered.
+    Payment made ${req.body.totalcash} Rs.
+    Remaining amount ${req.body.totalcredit} Rs.
+            `,
+      },
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+      },
+    };
 
-    //     request(options, function (error, response, body) {
-    //       if (error) throw new Error(error);
-    //     });
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+    });
 
     return res.status(200).json({
       status: "success",
