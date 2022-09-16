@@ -458,7 +458,7 @@ exports.addDailyreport = async function (req, res) {
         sendernum: "J3",
         textmessage: `Your bottles have been delivered.
     Payment made ${req.body.totalcash} Rs.
-    Remaining amount ${req.body.totalcredit} Rs.
+    Remaining amount ${req.body.previous} Rs.
             `,
       },
       headers: {
