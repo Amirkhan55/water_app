@@ -487,7 +487,6 @@ exports.createRide = async (req, res, next) => {
       });
 
       // const rideId = ride.id;
-
       return res.status(200).json({
         status: "success",
         message: "Ride created  ",
